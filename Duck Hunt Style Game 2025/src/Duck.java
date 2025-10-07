@@ -25,18 +25,20 @@ public class Duck {
 
     // Constructor: runs when you make a new Duck object
     public Duck() {
-        img = getImage("/imgs/duck.gif"); // Load the image file
+        img = getImage("/imgs/BlueGhost.gif"); // Load the image file
         
         tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
         
         // Default values
-        scaleX = 1.0;
-        scaleY = 1.0;
-        x = 0;
-        y = 0;
+        scaleX = 0.325;
+        scaleY = 0.325;
+        x = 500;
+        y = 100;
 
         init(x, y); // Set up the starting location and size
+
     }
+
     
     //2nd constructor to initialize location and scale!
     public Duck(int x, int y, int scaleX, int scaleY) {
