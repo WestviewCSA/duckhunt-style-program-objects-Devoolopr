@@ -30,6 +30,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private pacman myPacman = new pacman();
 	private fruits myFruit = new fruits();
 	private fruits2 myFruit2 = new fruits2();
+	private strawberry myStrawberry = new strawberry();
 	
 	public void paint(Graphics pen) {
 		
@@ -50,6 +51,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		myPacman.paint(pen);
 		myFruit.paint(pen);
 		myFruit2.paint(pen);
+		myStrawberry.paint(pen);
 		ghostObject.paint(pen);
 		ghost2Object.paint(pen);
 		
