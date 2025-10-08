@@ -16,7 +16,7 @@ import javax.swing.Timer;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	//frame size
-	private int screenWidth = 600, screenHeight = 600; //<----- change this to match your background shape
+	private int screenWidth = 900, screenHeight = 900; //<----- change this to match your background shape
 	private String title = "Pacman Hunt";
 	
 	
