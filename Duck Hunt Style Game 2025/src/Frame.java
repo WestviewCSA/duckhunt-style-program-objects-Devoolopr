@@ -2,22 +2,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+import java.awt.Cursor;
+import java.awt.Point;
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	//frame size
-	private int screenWidth = 900, screenHeight = 900; //<----- change this to match your background shape
-	private String title = "Pacman Hunt";
+	private int screenWidth = 900, screenHeight = 900;
+	private String title = "Duck Hunt";
 	
 	
 	/**
@@ -31,32 +33,24 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private fruits myFruit = new fruits();
 	private fruits2 myFruit2 = new fruits2();
 	private strawberry myStrawberry = new strawberry();
-	
+	private MyCursor cursor = new MyCursor();
+
 	public void paint(Graphics pen) {
 		
 		//this line of code is to force redraw the entire frame
 		super.paintComponent(pen);
 		
-		
-		//background should be drawn before the objects or based on how you want to LAYER
-		myBackground.paint(pen);
-		myTrack.paint(pen);
-		
-		
-		
-		
 		//call paint for the object
 		//for objects, you call methods on them using the dot operator
 		//methods use always involve parenthesis
-		myPacman.paint(pen);
+		myBackground.paint(pen);
+		myTrack.paint(pen);
 		myFruit.paint(pen);
-		myFruit2.paint(pen);
 		myStrawberry.paint(pen);
-		ghostObject.paint(pen);
+		myPacman.paint(pen);
 		ghost2Object.paint(pen);
-		
-		
-		
+		ghostObject.paint(pen);
+		cursor.paint(pen);
 	}
 	
 	
@@ -82,6 +76,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void mousePressed(MouseEvent mouse) {
 	    // Runs when a mouse button is pressed down.
 	    // Example: You could start dragging an object here.
+		System.out.println(mouse.getX()+":" + mouse.getY());
+		ghostObject.checkCollision(mouse.getX(), mouse.getY());
+		ghost2Object.checkCollision(mouse.getX(), mouse.getY());
 	}
 
 	@Override
@@ -147,6 +144,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		f.setLayout(new GridLayout(1,2));
 		f.addMouseListener(this);
 		f.addKeyListener(this);
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("/imgs/Crosshair.gif");
+		Cursor a = toolkit.createCustomCursor(image, new Point(this.getX(), this.getY()), "");
+		this.setCursor (a);
+		
 		Timer t = new Timer(16, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,3 +156,5 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 
 }
+
+
