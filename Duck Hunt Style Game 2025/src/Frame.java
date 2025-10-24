@@ -34,6 +34,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private fruits2 myFruit2 = new fruits2();
 	private strawberry myStrawberry = new strawberry();
 	private MyCursor cursor = new MyCursor();
+	private score scorecount = new score();
 
 	public void paint(Graphics pen) {
 		
@@ -50,6 +51,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		myPacman.paint(pen);
 		ghost2Object.paint(pen);
 		ghostObject.paint(pen);
+		scorecount.paint(pen);
 		cursor.paint(pen);
 	}
 	
