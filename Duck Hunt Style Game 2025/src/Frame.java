@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -22,6 +23,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private String title = "Duck Hunt";
 	
 	
+	//Music
+	Music mouseClickSound = new Music("avi_pew.wav", false);
+	Music bgMusic = new Music("bg_music.wav", true);
+	
 	/**
 	 * Declare and instantiate (create) your objects here
 	 */
@@ -35,6 +40,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private strawberry myStrawberry = new strawberry();
 	private MyCursor cursor = new MyCursor();
 	private score scorecount = new score();
+	
+	private int totalScore = 0; //needs to increment when collision happens
+	private int time = 30;      //not used right now
 
 	public void paint(Graphics pen) {
 		
@@ -46,11 +54,22 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		//methods use always involve parenthesis
 		myBackground.paint(pen);
 		myTrack.paint(pen);
+		
+		// drawing text on screen
+		//draw numbers on screen
+		Font f = new Font("Segoe UI", Font.PLAIN, 45);
+		pen.setFont(f);
+		pen.setColor(Color.white);
+		pen.drawString(" " + totalScore, 805, 130);
+		//pen.drawString("" + time, 310, 510);
+		
+		bgMusic.play();
 		myFruit.paint(pen);
 		myStrawberry.paint(pen);
 		myPacman.paint(pen);
 		ghost2Object.paint(pen);
 		ghostObject.paint(pen);
+		
 		scorecount.paint(pen);
 		cursor.paint(pen);
 	}
@@ -79,8 +98,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	    // Runs when a mouse button is pressed down.
 	    // Example: You could start dragging an object here.
 		System.out.println(mouse.getX()+":" + mouse.getY());
-		ghostObject.checkCollision(mouse.getX(), mouse.getY());
-		ghost2Object.checkCollision(mouse.getX(), mouse.getY());
+		
+		
+		//make the music file play each click
+		this.mouseClickSound.play();
+		
+		
+		if(ghostObject.checkCollision(mouse.getX(), mouse.getY())) {
+			totalScore++;
+		}
+			
+		if(ghost2Object.checkCollision(mouse.getX(), mouse.getY())) {
+			totalScore++;
+			
+		}
 	}
 
 	@Override
