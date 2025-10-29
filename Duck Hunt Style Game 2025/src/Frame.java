@@ -63,7 +63,35 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		pen.drawString(" " + totalScore, 805, 130);
 		//pen.drawString("" + time, 310, 510);
 		
-		bgMusic.play();
+		
+		
+		
+		if(totalScore < 5) {
+			Font a = new Font("Segoe UI", Font.PLAIN, 60);
+			pen.drawString("WAVE 0" + "", 50, 800);
+		}
+		if(totalScore > 5) {
+			Font a = new Font("Segoe UI", Font.PLAIN, 60);
+			pen.drawString("WAVE 1" + "", 50, 750);
+		}
+		if(totalScore > 10) {
+			Font a = new Font("Segoe UI", Font.PLAIN, 60);
+			pen.drawString("WAVE 2" + "", 50, 700);
+		}
+		if(totalScore > 15) {
+			Font a = new Font("Segoe UI", Font.PLAIN, 60);
+			pen.drawString("WAVE 3" + "", 50, 650);
+		}
+		if(totalScore > 15) {
+			Font a = new Font("Segoe UI", Font.PLAIN, 60);
+			pen.drawString("WAVE 4" + "", 50, 600);
+		}
+		if(totalScore > 20) {
+			pen.setColor(Color.green);
+			Font a = new Font("Segoe UI", Font.PLAIN, 150);
+			pen.drawString("CONGRATS!!!" + "", 300, 350);
+		}
+		
 		myFruit.paint(pen);
 		myStrawberry.paint(pen);
 		myPacman.paint(pen);
@@ -110,6 +138,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			
 		if(ghost2Object.checkCollision(mouse.getX(), mouse.getY())) {
 			totalScore++;
+			
+			
+			
 			
 		}
 	}
@@ -186,6 +217,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		
+		this.bgMusic.play();
 	}
 
 }
