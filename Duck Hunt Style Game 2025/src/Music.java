@@ -1,80 +1,48 @@
+import javax.sound.sampled.*;
+import java.io.InputStream;
 
+public class Music {
+    private Clip audioClip;
+    private boolean loops;
 
-import java.io.File;
-import java.io.IOException;
+    public Music(String fileName, boolean loops) {
+        this.loops = loops;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.UnsupportedAudioFileException;
+        try {
+            InputStream is = getClass().getResourceAsStream("/" + fileName);
+            if (is == null) {
+                throw new RuntimeException("Could not find audio file: " + fileName);
+            }
 
-public class Music  implements Runnable  {
-	Thread t;
-	File audioFile ;
-    AudioInputStream audioStream;
-    Clip audioClip;
-    String fn;
-	public Music(String fileName, boolean loops) {
-		fn = fileName;
-		audioFile = new File(fileName);
-		try {
-			audioStream = AudioSystem.getAudioInputStream(audioFile);
-			AudioFormat format = audioStream.getFormat();
-	        DataLine.Info info = new DataLine.Info(Clip.class, format);
-	        audioClip = (Clip) AudioSystem.getLine(info);
-	        
-	        if(loops) {
-	        	audioClip.loop(audioClip.LOOP_CONTINUOUSLY);
-	        }	        
-	        audioClip.open(audioStream);
-	        //audioClip.start();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void play() {
-		start3();
-	}
-	public void start3() {
-	     t = new Thread (this, fn);
-	     start2();
-	     t.start ();
-	}
-	public void start() {
-	     t = new Thread (this, fn);
-	     t.start ();
-	}
-	public void start2() {
-		audioFile = new File(fn);
-		try {
-			audioStream = AudioSystem.getAudioInputStream(audioFile);
-			AudioFormat format = audioStream.getFormat();
-	        DataLine.Info info = new DataLine.Info(Clip.class, format);
-	        audioClip = (Clip) AudioSystem.getLine(info);
-	        audioClip.open(audioStream);
-	        audioClip.start();
-		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(is);
+            AudioFormat format = audioStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            audioClip = (Clip) AudioSystem.getLine(info);
+            audioClip.open(audioStream);
 
-	@Override
-	public void run() {
-		 audioClip.start();
-	}
-	
+            if (loops) {
+                audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void play() {
+        if (audioClip != null) {
+            audioClip.stop();
+            audioClip.setFramePosition(0); // rewind to start
+            if (loops) {
+                audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                audioClip.start();
+            }
+        }
+    }
+
+    public void stop() {
+        if (audioClip != null && audioClip.isRunning()) {
+            audioClip.stop();
+        }
+    }
 }
